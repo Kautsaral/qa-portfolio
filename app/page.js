@@ -1,69 +1,459 @@
-import Image from "next/image";
+import Navbar from "./components/Navbar";
+
+const skills = [
+  {
+    category: "Testing",
+    number: "01",
+    items: [
+      "Manual Testing",
+      "Functional Testing",
+      "Regression Testing",
+      "Exploratory Testing",
+    ],
+  },
+  {
+    category: "API Testing",
+    number: "02",
+    items: ["Postman", "REST API", "gRPC", "Response Validation"],
+  },
+  {
+    category: "UI Automation",
+    number: "03",
+    items: ["Cypress", "Playwright", "Page Object Model", "BDD / Cucumber"],
+  },
+  {
+    category: "Programming",
+    number: "04",
+    items: ["JavaScript", "HTML & CSS", "SQL", "JSON"],
+  },
+  {
+    category: "Database",
+    number: "05",
+    items: ["PostgreSQL", "CRUD Validation", "Data Integrity"],
+  },
+  {
+    category: "Tools & CI/CD",
+    number: "06",
+    items: ["Git & GitHub", "GitHub Actions", "TestRail", "Agile / Scrum"],
+  },
+];
+
+const experiences = [
+  {
+    role: "QA Engineer",
+    company: "Professional Experience",
+    period: "2025 — 2026",
+    description:
+      "Responsible for validating application quality across web interfaces, APIs, and database operations.",
+    responsibilities: [
+      "Create and execute manual test cases for new features and regression testing.",
+      "Perform REST API and gRPC testing to validate requests, responses, and error handling.",
+      "Report, document, and track defects throughout the testing lifecycle.",
+      "Support release validation, regression testing, and hotfix verification.",
+      "Develop and maintain UI automation scenarios using Cypress.",
+    ],
+    tools: ["Manual Testing", "Postman", "Cypress", "PostgreSQL", "TestRail"],
+  },
+];
+
+const projects = [
+  {
+    number: "01",
+    category: "API AUTOMATION",
+    title: "Cypress API Testing",
+    description:
+      "Automated API tests for authentication and booking workflows, including positive and negative scenarios.",
+    features: [
+      "Authentication and token handling",
+      "Booking CRUD operations",
+      "Unauthorized access validation",
+      "GitHub Actions CI workflow",
+    ],
+    tools: ["Cypress", "JavaScript", "REST API", "GitHub Actions"],
+    repo: "https://github.com/Kautsaral/cypress-api-testing",
+  },
+  {
+    number: "02",
+    category: "UI AUTOMATION",
+    title: "Playwright UI Automation",
+    description:
+      "Browser automation practice using SauceDemo to validate user interactions and essential shopping workflows.",
+    features: [
+      "Locator strategies and assertions",
+      "Form and UI interaction testing",
+      "Reusable test organization",
+      "Automated test execution",
+    ],
+    tools: ["Playwright", "JavaScript", "SauceDemo"],
+    repo: "https://github.com/Kautsaral/playwright-ui-automation",
+  },
+  {
+    number: "03",
+    category: "BDD AUTOMATION",
+    title: "Cypress BDD UI Automation",
+    description:
+      "UI automation using behavior-driven development to express scenarios in a readable, structured format.",
+    features: [
+      "Gherkin feature files",
+      "Reusable step definitions",
+      "Login scenario validation",
+      "Automated UI regression checks",
+    ],
+    tools: ["Cypress", "Cucumber", "Gherkin", "JavaScript"],
+    repo: "https://github.com/Kautsaral/cypress-bdd-ui-automation",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      <Navbar />
+
+      {/* Hero */}
+      <section
+        id="home"
+        className="mx-auto flex min-h-[85vh] max-w-6xl flex-col justify-center px-6 py-20 sm:px-10 lg:px-16"
+      >
+        <div className="mb-6 flex items-center gap-3">
+          <span className="h-2.5 w-2.5 rounded-full bg-blue-600" />
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
+            QA Engineer
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+
+        <h1 className="max-w-4xl text-4xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
+          Building quality into{" "}
+          <span className="text-blue-600">every release.</span>
+        </h1>
+
+        <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+          Hi, I&apos;m Kautsar. I test applications, uncover defects, and build
+          automation to help deliver reliable software.
+        </p>
+
+        <div className="mt-9 flex flex-wrap gap-4">
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#projects"
+            className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
+            View Projects ↗
           </a>
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#contact"
+            className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-600 hover:text-blue-700"
           >
-            Documentation
+            Contact Me
           </a>
         </div>
-      </main>
-    </div>
+
+        <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {[
+            {
+              number: "01",
+              title: "API Testing",
+              description: "Validate endpoints, responses, and error handling.",
+            },
+            {
+              number: "02",
+              title: "UI Automation",
+              description: "Automate user journeys and regression scenarios.",
+            },
+            {
+              number: "03",
+              title: "Manual Testing",
+              description: "Explore features and identify unexpected behavior.",
+            },
+          ].map((item) => (
+            <div
+              key={item.number}
+              className="rounded-xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
+            >
+              <p className="text-sm font-semibold text-blue-600">
+                {item.number}
+              </p>
+              <h2 className="mt-3 text-lg font-semibold">{item.title}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Skills */}
+      <section id="skills" className="border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-6xl px-6 py-24 sm:px-10 lg:px-16">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
+              Skills & Tools
+            </p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              The tools behind my testing workflow.
+            </h2>
+            <p className="mt-4 leading-7 text-slate-600">
+              Testing practices and tools I use to validate application quality,
+              investigate defects, and support reliable software delivery.
+            </p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {skills.map((skill) => (
+              <article
+                key={skill.number}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 transition hover:-translate-y-1 hover:border-blue-200 hover:bg-white hover:shadow-lg"
+              >
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">{skill.category}</h3>
+                  <span className="text-sm font-medium text-blue-600">
+                    {skill.number}
+                  </span>
+                </div>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {skill.items.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience */}
+      <section
+        id="experience"
+        className="border-t border-slate-200 bg-slate-50"
+      >
+        <div className="mx-auto max-w-6xl px-6 py-24 sm:px-10 lg:px-16">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
+              Experience
+            </p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Turning requirements into reliable software.
+            </h2>
+            <p className="mt-4 leading-7 text-slate-600">
+              My professional experience in software quality assurance, testing,
+              and automation.
+            </p>
+          </div>
+
+          <div className="mt-12 space-y-6">
+            {experiences.map((experience) => (
+              <article
+                key={experience.role}
+                className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8"
+              >
+                <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
+                  <div>
+                    <h3 className="text-xl font-bold">{experience.role}</h3>
+                    <p className="mt-1 font-medium text-blue-700">
+                      {experience.company}
+                    </p>
+                  </div>
+                  <span className="w-fit rounded-full bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700">
+                    {experience.period}
+                  </span>
+                </div>
+
+                <p className="mt-5 leading-7 text-slate-600">
+                  {experience.description}
+                </p>
+
+                <h4 className="mt-6 font-semibold">Key Responsibilities</h4>
+                <ul className="mt-3 space-y-3">
+                  {experience.responsibilities.map((responsibility) => (
+                    <li
+                      key={responsibility}
+                      className="flex gap-3 text-sm leading-6 text-slate-600"
+                    >
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-600" />
+                      <span>{responsibility}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {experience.tools.map((tool) => (
+                    <span
+                      key={tool}
+                      className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-medium text-slate-600"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects */}
+      <section id="projects" className="border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-6xl px-6 py-24 sm:px-10 lg:px-16">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
+              Projects
+            </p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Practical testing. Measurable confidence.
+            </h2>
+            <p className="mt-4 leading-7 text-slate-600">
+              Hands-on projects demonstrating API testing, browser automation,
+              and behavior-driven development.
+            </p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {projects.map((project) => (
+              <article
+                key={project.number}
+                className="flex flex-col rounded-2xl border border-slate-200 bg-slate-50 p-6 transition hover:-translate-y-1 hover:border-blue-200 hover:bg-white hover:shadow-lg sm:p-8"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-blue-600">
+                    PROJECT {project.number}
+                  </span>
+                  <span className="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-semibold tracking-wide text-blue-700">
+                    {project.category}
+                  </span>
+                </div>
+
+                <h3 className="mt-5 text-xl font-bold">{project.title}</h3>
+                <p className="mt-3 leading-7 text-slate-600">
+                  {project.description}
+                </p>
+
+                <ul className="mt-6 space-y-3">
+                  {project.features.map((feature) => (
+                    <li
+                      key={feature}
+                      className="flex gap-3 text-sm text-slate-600"
+                    >
+                      <span className="font-bold text-blue-600">✓</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {project.tools.map((tool) => (
+                    <span
+                      key={tool}
+                      className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-600"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-auto pt-8">
+                  <a
+                    href={project.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 transition hover:text-blue-900"
+                  >
+                    View Repository <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Contact */}
+      <section id="contact" className="border-t border-slate-200 bg-slate-50">
+        <div className="mx-auto max-w-6xl px-6 py-24 sm:px-10 lg:px-16">
+          <div className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-12 lg:p-16">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
+              Get In Touch
+            </p>
+
+            <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight sm:text-5xl">
+              Let&apos;s make software more reliable.
+            </h2>
+
+            <p className="mt-5 max-w-2xl leading-8 text-slate-600">
+              I&apos;m open to QA Engineer opportunities, collaboration, and
+              conversations about software testing and automation. Feel free to
+              connect with me.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-4">
+              <a
+                href="mailto:your.email@example.com"
+                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+              >
+                Email Me <span aria-hidden="true">↗</span>
+              </a>
+
+              <a
+                href="https://github.com/Kautsaral"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-600 hover:text-blue-700"
+              >
+                GitHub <span aria-hidden="true">↗</span>
+              </a>
+
+              <a
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-600 hover:text-blue-700"
+              >
+                LinkedIn <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+
+            <p className="mt-6 text-sm text-slate-500">
+              Based in Indonesia · Available for professional connections
+            </p>
+          </div>
+        </div>
+      </section>
+      {/* Footer */}
+      <footer className="border-t border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-10 lg:px-16">
+          <div>
+            <a
+              href="#home"
+              className="text-lg font-bold tracking-tight text-slate-900"
+            >
+              Kautsar<span className="text-blue-600">.</span>
+            </a>
+            <p className="mt-1 text-sm text-slate-500">
+              QA Engineer · Quality through testing and automation.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-5 text-sm text-slate-500">
+            <a href="#home" className="transition hover:text-blue-700">
+              Home
+            </a>
+            <a href="#experience" className="transition hover:text-blue-700">
+              Experience
+            </a>
+            <a href="#projects" className="transition hover:text-blue-700">
+              Projects
+            </a>
+            <a href="#contact" className="transition hover:text-blue-700">
+              Contact
+            </a>
+          </div>
+
+          <p className="text-sm text-slate-500">
+            © {new Date().getFullYear()} Kautsar
+          </p>
+        </div>
+      </footer>
+    </main>
   );
 }
