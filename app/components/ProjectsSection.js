@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -12,7 +13,9 @@ export default function ProjectsSection() {
     async function fetchProjects() {
       const { data, error } = await supabase
         .from("projects")
-        .select("id, title, description, tech_stack, github_url, display_order")
+        .select(
+          "id, title, description, tech_stack, github_url, live_url, display_order"
+        )
         .eq("is_published", true)
         .order("display_order", { ascending: true });
 
@@ -36,12 +39,14 @@ export default function ProjectsSection() {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
             Projects
           </p>
+
           <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
             Practical testing. Measurable confidence.
           </h2>
+
           <p className="mt-4 leading-7 text-slate-600">
-            Hands-on projects demonstrating API testing, browser automation, and
-            behavior-driven development.
+            Hands-on projects demonstrating API testing, browser automation,
+            and behavior-driven development.
           </p>
         </div>
 
@@ -54,7 +59,9 @@ export default function ProjectsSection() {
             {error}
           </p>
         ) : projects.length === 0 ? (
-          <p className="mt-12 text-slate-500">No published projects yet.</p>
+          <p className="mt-12 text-slate-500">
+            No published projects yet.
+          </p>
         ) : (
           <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
             {projects.map((project, index) => (
@@ -66,16 +73,33 @@ export default function ProjectsSection() {
                   <span className="text-sm font-semibold text-blue-600">
                     PROJECT {String(index + 1).padStart(2, "0")}
                   </span>
+
                   <span className="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-semibold tracking-wide text-blue-700">
                     {(project.tech_stack ?? []).some((tool) =>
-                      ["Cypress", "Playwright"].includes(tool),
+                      ["Cypress", "Playwright"].includes(tool)
                     )
                       ? "TEST AUTOMATION"
                       : "QA PROJECT"}
                   </span>
                 </div>
 
-                <h3 className="mt-5 text-xl font-bold">{project.title}</h3>
+                <h3 className="mt-5 text-xl font-bold">
+                  {project.live_url ? (
+                    <a
+                      href={project.live_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition hover:text-blue-700 hover:underline"
+                    >
+                      {project.title}
+                      <span className="ml-2 text-sm" aria-hidden="true">
+                        ↗
+                      </span>
+                    </a>
+                  ) : (
+                    project.title
+                  )}
+                </h3>
 
                 <p className="mt-3 leading-7 text-slate-600">
                   {project.description}
@@ -92,7 +116,7 @@ export default function ProjectsSection() {
                   ))}
                 </div>
 
-                <div className="mt-auto pt-8">
+                <div className="mt-auto flex flex-wrap gap-5 pt-8">
                   {project.github_url && (
                     <a
                       href={project.github_url}
@@ -100,7 +124,20 @@ export default function ProjectsSection() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 transition hover:text-blue-900"
                     >
-                      View Repository <span aria-hidden="true">↗</span>
+                      View Repository
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
+
+                  {project.live_url && (
+                    <a
+                      href={project.live_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 transition hover:text-emerald-900"
+                    >
+                      Live Demo
+                      <span aria-hidden="true">↗</span>
                     </a>
                   )}
                 </div>

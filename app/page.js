@@ -3,7 +3,6 @@ import ProjectsSection from "./components/ProjectsSection";
 import SkillsSection from "./components/SkillsSection";
 import ExperienceSection from "./components/ExperienceSection";
 
-
 const projects = [
   {
     number: "01",
@@ -131,6 +130,9 @@ export default function Home() {
       <SkillsSection />
 
       <ExperienceSection />
+
+      <ProjectsSection />
+      
       {/* Contact */}
       <section id="contact" className="border-t border-slate-200 bg-slate-50">
         <div className="mx-auto max-w-6xl px-6 py-24 sm:px-10 lg:px-16">
