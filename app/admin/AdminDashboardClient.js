@@ -19,15 +19,16 @@ const sections = [
     table: "skills",
   },
   {
-    title: "Experience",
+    title: "Experiences",
     description: "Manage work history and descriptions.",
-    href: "/admin/experience",
+    href: "/admin/experiences",
     table: "experiences",
   },
 ];
 
 export default function AdminDashboardClient() {
   const router = useRouter();
+
   const [counts, setCounts] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -57,36 +58,49 @@ export default function AdminDashboardClient() {
 
   useEffect(() => {
     async function fetchCounts() {
-      const supabase = createClient();
+      try {
+        const supabase = createClient();
 
-      const results = await Promise.all(
-        sections.map(async (section) => {
-          const { count, error } = await supabase
-            .from(section.table)
-            .select("*", { count: "exact", head: true });
+        const results = await Promise.all(
+          sections.map(async (section) => {
+            const { count, error } = await supabase
+              .from(section.table)
+              .select("*", { count: "exact", head: true });
 
-          return { table: section.table, count, error };
-        }),
-      );
-
-      const failed = results.find((result) => result.error);
-
-      if (failed) {
-        console.error("Gagal mengambil ringkasan admin:", failed.error.message);
-        setError(
-          "Could not load dashboard statistics. Check your Supabase permissions.",
+            return {
+              table: section.table,
+              count,
+              error,
+            };
+          }),
         );
-      } else {
-        const nextCounts = {};
 
-        results.forEach((result) => {
-          nextCounts[result.table] = result.count ?? 0;
-        });
+        const failed = results.find((result) => result.error);
 
-        setCounts(nextCounts);
+        if (failed) {
+          console.error(
+            "Gagal mengambil ringkasan admin:",
+            failed.error.message,
+          );
+
+          setError(
+            "Could not load dashboard statistics. Check your Supabase permissions.",
+          );
+        } else {
+          const nextCounts = {};
+
+          results.forEach((result) => {
+            nextCounts[result.table] = result.count ?? 0;
+          });
+
+          setCounts(nextCounts);
+        }
+      } catch (error) {
+        console.error("Gagal mengambil statistik:", error);
+        setError("Terjadi kesalahan saat memuat statistik dashboard.");
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     }
 
     fetchCounts();
@@ -100,6 +114,7 @@ export default function AdminDashboardClient() {
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">
               Portfolio CMS
             </p>
+
             <h1 className="mt-1 text-2xl font-bold text-slate-900">
               Admin Dashboard
             </h1>
@@ -128,6 +143,7 @@ export default function AdminDashboardClient() {
       <div className="mx-auto max-w-6xl px-6 py-10 sm:px-10">
         <div>
           <h2 className="text-xl font-bold text-slate-900">Overview</h2>
+
           <p className="mt-2 text-slate-600">
             Manage the content displayed on your public portfolio.
           </p>
@@ -152,9 +168,11 @@ export default function AdminDashboardClient() {
                 <p className="text-sm font-medium text-slate-500">
                   Total {section.title}
                 </p>
+
                 <p className="mt-3 text-3xl font-bold text-slate-900">
                   {loading ? "—" : (counts[section.table] ?? 0)}
                 </p>
+
                 <p className="mt-2 text-sm text-slate-500">
                   Total records in database
                 </p>
@@ -168,29 +186,44 @@ export default function AdminDashboardClient() {
             Content Management
           </h2>
 
+          <p className="mt-2 text-slate-600">
+            Select a section below to manage your portfolio content.
+          </p>
+
           <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-3">
             {sections.map((section) => (
-              <article
+              <Link
                 key={section.href}
-                className="rounded-2xl border border-slate-200 bg-white p-6"
+                href={section.href}
+                className="group block rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
-                <h3 className="text-lg font-bold text-slate-900">
-                  {section.title}
-                </h3>
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-lg font-bold text-slate-900 transition group-hover:text-blue-700">
+                    {section.title}
+                  </h3>
+
+                  <span
+                    aria-hidden="true"
+                    className="text-xl text-slate-400 transition group-hover:translate-x-1 group-hover:text-blue-700"
+                  >
+                    →
+                  </span>
+                </div>
+
                 <p className="mt-2 text-sm leading-6 text-slate-600">
                   {section.description}
                 </p>
-                <span className="mt-5 inline-block rounded-lg bg-slate-100 px-3 py-2 text-xs font-medium text-slate-500">
-                  Coming in next steps
+
+                <span className="mt-5 inline-flex rounded-lg bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700 transition group-hover:bg-blue-100">
+                  Manage {section.title}
                 </span>
-              </article>
+              </Link>
             ))}
           </div>
         </section>
 
         <p className="mt-8 text-sm text-slate-500">
-          Development preview — content editing features will be enabled in the
-          next steps.
+          Portfolio content management dashboard.
         </p>
       </div>
     </main>
