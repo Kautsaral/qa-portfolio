@@ -25,10 +25,25 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
+      - name: Verify required secrets
+        env:
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          ADMIN_EMAIL: ${{ secrets.PLAYWRIGHT_ADMIN_EMAIL }}
+          ADMIN_PASSWORD: ${{ secrets.PLAYWRIGHT_ADMIN_PASSWORD }}
+        run: |
+          test -n "$SUPABASE_URL" || (echo "Supabase URL missing" && exit 1)
+          test -n "$SUPABASE_KEY" || (echo "Supabase key missing" && exit 1)
+          test -n "$ADMIN_EMAIL" || (echo "Admin email missing" && exit 1)
+          test -n "$ADMIN_PASSWORD" || (echo "Admin password missing" && exit 1)
+          echo "All required secrets are available."
+
       - name: Run Playwright tests
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          PLAYWRIGHT_ADMIN_EMAIL: ${{ secrets.PLAYWRIGHT_ADMIN_EMAIL }}
+          PLAYWRIGHT_ADMIN_PASSWORD: ${{ secrets.PLAYWRIGHT_ADMIN_PASSWORD }}
         run: npx playwright test
 
       - uses: actions/upload-artifact@v4
