@@ -14,12 +14,11 @@ test.describe("Projects Section", () => {
   });
 
   test("displays published projects after loading", async ({ page }) => {
-    await expect(page.getByText("Loading projects...")).not.toBeVisible();
-
     const projectCards = page.locator("#projects article");
 
     await expect(projectCards.first()).toBeVisible();
     await expect(projectCards).not.toHaveCount(0);
+    await expect(page.getByText("Loading projects...")).not.toBeVisible();
   });
 
   test("each project displays a title and description", async ({ page }) => {
@@ -48,42 +47,65 @@ test.describe("Projects Section", () => {
 
     const repositoryLinks = page
       .locator("#projects article")
-      .getByRole("link", { name: "View Repository" });
+      .getByRole("link", { name: "View Repository", exact: true });
 
     await expect(repositoryLinks).not.toHaveCount(0);
 
     const count = await repositoryLinks.count();
 
     for (let i = 0; i < count; i++) {
-      await expect(repositoryLinks.nth(i)).toHaveAttribute("target", "_blank");
+      const link = repositoryLinks.nth(i);
 
-      await expect(repositoryLinks.nth(i)).toHaveAttribute(
-        "href",
-        /^https?:\/\//,
-      );
+      await expect(link).toHaveAttribute("target", "_blank");
+      await expect(link).toHaveAttribute("href", /^https?:\/\//);
     }
   });
 
   test("live demo links open in a new tab when available", async ({ page }) => {
+    // Pasang mock sebelum halaman dibuka agar request asli tidak ikut digunakan.
+    await page.route("**/rest/v1/projects**", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 999,
+            title: "Playwright Live Demo Test",
+            description: "Test project for Live Demo link validation.",
+            tech_stack: ["Playwright", "JavaScript"],
+            github_url: "https://github.com/example/project",
+            live_url: "https://example.com/demo",
+            display_order: 1,
+            is_published: true,
+          },
+        ]),
+      });
+    });
+
+    await page.goto("/#projects");
+
     const projectCards = page.locator("#projects article");
 
-    await expect(projectCards.first()).toBeVisible();
+    await expect(projectCards).toHaveCount(1);
 
-    const liveDemoLinks = page
-      .locator("#projects article")
-      .getByRole("link", { name: "Live Demo" });
+    const projectCard = projectCards.first();
 
-    const count = await liveDemoLinks.count();
+    await expect(
+      projectCard.getByRole("heading", {
+        name: "Playwright Live Demo Test",
+      }),
+    ).toBeVisible();
 
-    test.skip(count === 0, "No published project has a live demo link.");
+    const liveDemoLink = projectCard.getByRole("link", {
+      name: "Live Demo",
+      exact: true,
+    });
 
-    for (let i = 0; i < count; i++) {
-      await expect(liveDemoLinks.nth(i)).toHaveAttribute("target", "_blank");
-
-      await expect(liveDemoLinks.nth(i)).toHaveAttribute(
-        "href",
-        /^https?:\/\//,
-      );
-    }
+    await expect(liveDemoLink).toHaveCount(1);
+    await expect(liveDemoLink).toHaveAttribute("target", "_blank");
+    await expect(liveDemoLink).toHaveAttribute(
+      "href",
+      "https://example.com/demo",
+    );
   });
 });
