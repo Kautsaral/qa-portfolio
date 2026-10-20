@@ -33,7 +33,6 @@ test.describe("Projects Section", () => {
       const card = projectCards.nth(i);
 
       await expect(card.locator("h3")).toBeVisible();
-
       await expect(card.locator("p").first()).toBeVisible();
 
       await expect(
@@ -43,13 +42,17 @@ test.describe("Projects Section", () => {
   });
 
   test("repository links open in a new tab", async ({ page }) => {
+    const projectCards = page.locator("#projects article");
+
+    await expect(projectCards.first()).toBeVisible();
+
     const repositoryLinks = page
       .locator("#projects article")
       .getByRole("link", { name: "View Repository" });
 
-    const count = await repositoryLinks.count();
+    await expect(repositoryLinks).not.toHaveCount(0);
 
-    test.skip(count === 0, "No published project has a repository link.");
+    const count = await repositoryLinks.count();
 
     for (let i = 0; i < count; i++) {
       await expect(repositoryLinks.nth(i)).toHaveAttribute("target", "_blank");
@@ -62,6 +65,10 @@ test.describe("Projects Section", () => {
   });
 
   test("live demo links open in a new tab when available", async ({ page }) => {
+    const projectCards = page.locator("#projects article");
+
+    await expect(projectCards.first()).toBeVisible();
+
     const liveDemoLinks = page
       .locator("#projects article")
       .getByRole("link", { name: "Live Demo" });
